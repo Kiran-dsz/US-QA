@@ -10,13 +10,92 @@ const TEST_ACCOUNT = {
 test.describe('Team Hub MVP - From Notion Doc (5 Tests)', () => {
 
   test.beforeEach(async ({ page }) => {
-    // Navigate to base URL - browser session/cookies handle authentication
+    // Navigate to base URL
     await page.goto(BASE_URL);
     await page.waitForLoadState('load');
 
-    // Note: Tests use persistent session cookies from previous authentication
-    // If session expires, manually login at: https://test.theplaud.com
-    // Credentials: pnookvex@sharklasers.com / Test1234
+    // Check if we're on login page
+    const currentUrl = page.url();
+    if (currentUrl.includes('/login')) {
+      console.log('🔐 On login page - setting up auto-login...');
+
+      // Wait for login form to appear
+      await page.waitForSelector('input[placeholder="Email address"]', { timeout: 10000 });
+      console.log('✅ Login form found');
+
+      // Use evaluate to set input values directly and trigger events
+      await page.evaluate((credentials) => {
+        // Get the email input
+        const emailInput = document.querySelector('input[placeholder="Email address"]');
+        if (emailInput) {
+          // Remove readonly attribute
+          emailInput.removeAttribute('readonly');
+          // Set value
+          emailInput.value = credentials.email;
+          // Trigger input event
+          emailInput.dispatchEvent(new Event('input', { bubbles: true }));
+          emailInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+
+        // Get the password input
+        const passwordInput = document.querySelector('input[placeholder="Password"]');
+        if (passwordInput) {
+          // Remove readonly attribute
+          passwordInput.removeAttribute('readonly');
+          // Set value
+          passwordInput.value = credentials.password;
+          // Trigger input event
+          passwordInput.dispatchEvent(new Event('input', { bubbles: true }));
+          passwordInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }, { email: TEST_ACCOUNT.email, password: TEST_ACCOUNT.password });
+
+      console.log('✅ Credentials injected');
+
+      // Click the Sign in button using JavaScript
+      try {
+        await page.evaluate(() => {
+          // Find all buttons
+          const buttons = document.querySelectorAll('button');
+          let found = false;
+
+          // Look for button containing "Sign in" text
+          for (const btn of buttons) {
+            if (btn.textContent.includes('Sign in') || btn.textContent.includes('sign in')) {
+              console.log('Found sign in button:', btn.textContent);
+              btn.click();
+              found = true;
+              break;
+            }
+          }
+
+          if (!found) {
+            console.log('Sign in button not found. Available buttons:', Array.from(buttons).map(b => b.textContent));
+          }
+        });
+
+        console.log('✅ Attempted to click Sign in button');
+
+        // Wait for authentication to process
+        await page.waitForTimeout(5000);
+
+        // Check result
+        const finalUrl = page.url();
+        if (!finalUrl.includes('/login')) {
+          console.log('✅ Successfully authenticated - redirected away from login');
+        } else {
+          console.log('⚠️ Still on login page - checking if credentials were accepted...');
+        }
+      } catch (error) {
+        console.log('⚠️ Error during sign in:', error.message);
+      }
+
+      // Wait for page to fully load
+      await page.waitForLoadState('load').catch(() => {});
+      await page.waitForTimeout(1500);
+    }
+
+    console.log('✅ Test setup complete');
   });
 
   // ==========================================
