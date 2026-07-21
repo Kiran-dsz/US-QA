@@ -57,6 +57,7 @@ let SESSION_LOGIN_TIME = null;
 
 /**
  * Login and save authenticated session (called once)
+ * Uses Enter key (reliable) instead of button click (unreliable)
  */
 async function loginAndSaveSession(page) {
   console.log('🔐 Logging in and saving session...');
@@ -66,26 +67,48 @@ async function loginAndSaveSession(page) {
 
   const currentUrl = page.url();
   if (currentUrl.includes('/login')) {
-    await page.evaluate((credentials) => {
-      const emailInput = document.querySelector('input[placeholder="Email address"]');
-      if (emailInput) {
-        emailInput.removeAttribute('readonly');
-        emailInput.value = credentials.email;
-        emailInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-      const passwordInput = document.querySelector('input[placeholder="Password"]');
-      if (passwordInput) {
-        passwordInput.removeAttribute('readonly');
-        passwordInput.value = credentials.password;
-        passwordInput.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-    }, { email: TEST_ACCOUNT.email, password: TEST_ACCOUNT.password });
+    console.log('📍 On login page - authenticating...');
 
-    await page.press('input[placeholder="Password"]', 'Enter');
-    await page.waitForNavigation({ timeout: 15000, waitUntil: 'load' }).catch(() => {});
-    await page.waitForLoadState('load').catch(() => {});
-    await page.waitForTimeout(1000);
+    // Use data-testid selectors (from Playwright recording)
+    try {
+      // Email input
+      await page.getByTestId('login-email-input').getByTestId('my-ipt-input').click();
+      await page.getByTestId('login-email-input').getByTestId('my-ipt-input').fill(TEST_ACCOUNT.email);
+      console.log('✅ Email entered');
+
+      // Password input
+      await page.getByTestId('login-password-input').getByTestId('my-ipt-input').click();
+      await page.getByTestId('login-password-input').getByTestId('my-ipt-input').fill(TEST_ACCOUNT.password);
+      console.log('✅ Password entered');
+
+      // Submit with Enter key (works reliably, button click doesn't)
+      await page.getByTestId('login-password-input').getByTestId('my-ipt-input').press('Enter');
+      console.log('✅ Form submitted with Enter key');
+
+      // Wait for navigation
+      await page.waitForNavigation({ timeout: 15000, waitUntil: 'load' }).catch(() => {});
+      await page.waitForLoadState('load').catch(() => {});
+      await page.waitForTimeout(2000);
+    } catch (e) {
+      console.log('⚠️ data-testid selectors not found, trying fallback...');
+
+      // Fallback: use placeholder selectors
+      await page.fill('input[placeholder="Email address"]', TEST_ACCOUNT.email);
+      await page.fill('input[placeholder="Password"]', TEST_ACCOUNT.password);
+      await page.press('input[placeholder="Password"]', 'Enter');
+
+      await page.waitForNavigation({ timeout: 15000, waitUntil: 'load' }).catch(() => {});
+      await page.waitForLoadState('load').catch(() => {});
+      await page.waitForTimeout(2000);
+    }
   }
+
+  // Verify we're logged in (not still on login page)
+  const finalUrl = page.url();
+  if (finalUrl.includes('/login')) {
+    throw new Error(`❌ Login failed - still on ${finalUrl}`);
+  }
+  console.log(`✅ Authenticated - redirected to ${finalUrl}`);
 
   // Save session state
   AUTHENTICATED_STATE = await page.context().storageState();
@@ -107,10 +130,40 @@ async function useAuthenticatedSession(context) {
 
 /**
  * Fresh login (for destructive tests like delete)
+ * Uses same reliable Enter key method
  */
 async function freshLogin(page) {
   console.log('🔐 Fresh login for destructive test');
-  await loginAndSaveSession(page);
+
+  // Navigate to login
+  await page.goto(BASE_URL);
+  await page.waitForLoadState('load');
+
+  // Use same login method
+  try {
+    await page.getByTestId('login-email-input').getByTestId('my-ipt-input').click();
+    await page.getByTestId('login-email-input').getByTestId('my-ipt-input').fill(TEST_ACCOUNT.email);
+
+    await page.getByTestId('login-password-input').getByTestId('my-ipt-input').click();
+    await page.getByTestId('login-password-input').getByTestId('my-ipt-input').fill(TEST_ACCOUNT.password);
+
+    await page.getByTestId('login-password-input').getByTestId('my-ipt-input').press('Enter');
+
+    await page.waitForNavigation({ timeout: 15000, waitUntil: 'load' }).catch(() => {});
+    await page.waitForLoadState('load').catch(() => {});
+    await page.waitForTimeout(2000);
+  } catch (e) {
+    // Fallback
+    await page.fill('input[placeholder="Email address"]', TEST_ACCOUNT.email);
+    await page.fill('input[placeholder="Password"]', TEST_ACCOUNT.password);
+    await page.press('input[placeholder="Password"]', 'Enter');
+
+    await page.waitForNavigation({ timeout: 15000, waitUntil: 'load' }).catch(() => {});
+    await page.waitForLoadState('load').catch(() => {});
+    await page.waitForTimeout(2000);
+  }
+
+  console.log('✅ Fresh login complete');
 }
 
 test.describe('Phase 1: P0 + P1 Regression Tests', () => {
