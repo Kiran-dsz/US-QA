@@ -10,27 +10,13 @@ const TEST_ACCOUNT = {
 test.describe('Team Hub MVP - From Notion Doc (5 Tests)', () => {
 
   test.beforeEach(async ({ page }) => {
-    // Navigate to login
+    // Navigate to base URL - browser session/cookies handle authentication
     await page.goto(BASE_URL);
+    await page.waitForLoadState('load');
 
-    // Check if already logged in
-    const emailInput = await page.locator('input[type="email"]').isVisible({ timeout: 2000 }).catch(() => false);
-
-    if (emailInput) {
-      // Need to login
-      await page.fill('input[type="email"]', TEST_ACCOUNT.email);
-      await page.fill('input[type="password"]', TEST_ACCOUNT.password);
-
-      const loginBtn = await page.locator('button:has-text("Sign in"), button:has-text("Login")').first();
-      await loginBtn.click();
-
-      // Wait for dashboard to load
-      await page.waitForLoadState('load');
-      await page.waitForTimeout(2000);
-    } else {
-      // Already logged in, just wait for page
-      await page.waitForLoadState('load');
-    }
+    // Note: Tests use persistent session cookies from previous authentication
+    // If session expires, manually login at: https://test.theplaud.com
+    // Credentials: pnookvex@sharklasers.com / Test1234
   });
 
   // ==========================================

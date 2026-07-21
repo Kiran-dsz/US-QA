@@ -16,7 +16,7 @@ module.exports = defineConfig({
     ignoreHTTPSErrors: true,
     trace: 'on',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    video: 'on',
   },
   projects: [
     { name: 'chromium', use: { browserName: 'chromium' } },
