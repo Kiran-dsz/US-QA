@@ -29,11 +29,13 @@ test.describe('Personal Workspace Navigation', () => {
     await page.getByTestId('login-password-input').getByTestId('my-ipt-input').click();
     await page.getByTestId('login-password-input').getByTestId('my-ipt-input').fill('Test1234');
 
-    // Click login
-    await page.getByTestId('login-login-btn').click();
+    // Submit with Enter key (button click doesn't work reliably)
+    await page.getByTestId('login-password-input').getByTestId('my-ipt-input').press('Enter');
 
-    // Wait for navigation
-    await page.waitForLoadState('load');
+    // Wait for navigation and redirect
+    await page.waitForNavigation({ timeout: 15000, waitUntil: 'load' }).catch(() => {});
+    await page.waitForLoadState('load').catch(() => {});
+    await page.waitForTimeout(2000);
     console.log('✅ Logged in successfully');
 
     // ==================== STEP 2: VERIFY AUTHENTICATED ====================
