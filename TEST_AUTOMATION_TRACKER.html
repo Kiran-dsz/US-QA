@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Automation Tracker - Team Hub MVP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .progress-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .module-section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .module-header {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .test-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #e0e0e0;
+        }
+
+        .test-item.automated {
+            border-left-color: #28a745;
+            background: #f0f9f6;
+        }
+
+        .test-item.pending {
+            border-left-color: #ffc107;
+        }
+
+        .test-info {
+            flex: 1;
+        }
+
+        .test-number {
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 10px;
+        }
+
+        .test-title {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .test-priority {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .priority-p0 {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .priority-p1 {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+
+        .status-yes {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-no {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .summary-table th,
+        .summary-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .summary-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .summary-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .recommendations {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .recommendations h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+
+        .recommendation-item {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .recommendation-item strong {
+            color: #1976d2;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1e1e1e;
+            }
+
+            .container {
+                background: #2d2d2d;
+                color: #e0e0e0;
+            }
+
+            h1, h2, .test-title {
+                color: #e0e0e0;
+            }
+
+            .progress-section, .module-section {
+                background: #3d3d3d;
+            }
+
+            .test-item {
+                background: #3d3d3d;
+            }
+
+            .stat-card {
+                background: #3d3d3d;
+                border-color: #555;
+            }
+
+            .summary-table th {
+                background: #3d3d3d;
+            }
+
+            .summary-table tr:hover {
+                background: #3d3d3d;
+            }
+
+            .recommendations {
+                background: #1e3a5f;
+                border-left-color: #42a5f5;
+            }
+
+            .recommendations h3 {
+                color: #42a5f5;
+            }
+
+            .recommendation-item strong {
+                color: #42a5f5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Automation Tracker</h1>
+        <p class="subtitle">Team Hub MVP - Notion Document</p>
+
+        <!-- Progress Section -->
+        <div class="progress-section">
+            <h2>📊 Overall Progress</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Tests Automated</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">64</div>
+                    <div class="stat-label">Tests Pending</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">69</div>
+                    <div class="stat-label">Total Tests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7.2%</div>
+                    <div class="stat-label">Completion</div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 7.2%;">7.2%</div>
+            </div>
+
+            <table class="summary-table">
+                <tr>
+                    <th>Status</th>
+                    <th>Count</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>✅ Automated</td>
+                    <td>5</td>
+                    <td>7.2%</td>
+                </tr>
+                <tr>
+                    <td>⏳ Pending</td>
+                    <td>64</td>
+                    <td>92.8%</td>
+                </tr>
+                <tr>
+                    <td>🔴 Total</td>
+                    <td>69</td>
+                    <td>100%</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Automated Tests -->
+        <h2>✅ Automated Tests (5)</h2>
+        <div class="module-section">
+            <div class="module-header">📋 Completed</div>
+
+            <div class="test-item automated">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#5</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        When Team Hub is empty, the empty-state copy and icon are displayed
+                    </div>
+                </div>
+                <div class="status-badge status-yes">✅ YES</div>
+            </div>
+
+            <div class="test-item automated">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#6</span>
+                        <span class="test-priority priority-p1">P1</span>
+                        The Team Hub page title and subtitle are displayed correctly
+                    </div>
+                </div>
+                <div class="status-badge status-yes">✅ YES</div>
+            </div>
+
+            <div class="test-item automated">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#71</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        Clicking a file in the Team Hub file list opens its detail page (P0 smoke)
+                    </div>
+                </div>
+                <div class="status-badge status-yes">✅ YES</div>
+            </div>
+
+            <div class="test-item automated">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#72</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        The detail page breadcrumb path includes the "Team Hub" level
+                    </div>
+                </div>
+                <div class="status-badge status-yes">✅ YES</div>
+            </div>
+
+            <div class="test-item automated">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#73</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        The detail page audio player loads correctly and can play (3.0 reuse smoke)
+                    </div>
+                </div>
+                <div class="status-badge status-yes">✅ YES</div>
+            </div>
+        </div>
+
+        <!-- Pending by Module -->
+        <h2>⏳ Pending Tests by Module (64)</h2>
+
+        <div class="module-section">
+            <div class="module-header">🏠 Team Hub Entry & Auto-Creation (5 tests)</div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#2</span>
+                        <span class="test-priority priority-p1">P1</span>
+                        The file count in the sidebar Team Hub updates as files are contributed
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#3</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        Team Hub entry is not shown in personal workspace sidebar
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#4</span>
+                        <span class="test-priority priority-p1">P1</span>
+                        Dual-role account shows Team Hub in both workspaces
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+        </div>
+
+        <div class="module-section">
+            <div class="module-header">📋 View File List (6 tests)</div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#11</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        File list sorted by contribution date (descending) by default
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#12</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        After contributing file, new file shows in Team Hub list in real time
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#15</span>
+                        <span class="test-priority priority-p1">P1</span>
+                        Each file list row displays Name and Duration values correctly
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+        </div>
+
+        <div class="module-section">
+            <div class="module-header">📥 Contribute File Flow (9 tests)</div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#22</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        Confirmation modal states file will be removed from personal space
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#23</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        Modal includes "This action cannot be undone" statement
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#26</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        Clicking confirm button contributes successfully and shows Toast
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+        </div>
+
+        <div class="module-section">
+            <div class="module-header">🎬 Export Operations (10 tests)</div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#86</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        Export Transcript as SRT format from Team Hub file detail page
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+            <div class="test-item pending">
+                <div class="test-info">
+                    <div class="test-title">
+                        <span class="test-number">#88</span>
+                        <span class="test-priority priority-p0">P0</span>
+                        Export Transcript as DOCX from Team Hub file detail page
+                    </div>
+                </div>
+                <div class="status-badge status-no">❌ NO</div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="recommendations">
+            <h3>📈 Recommended Next Phases</h3>
+
+            <div class="recommendation-item">
+                <strong>Phase 2 (Medium Difficulty):</strong> 10 tests | ~8-10 hours
+                <br>Contribute Flow modals, File List display & sorting
+            </div>
+
+            <div class="recommendation-item">
+                <strong>Phase 3 (Core Functionality):</strong> 20 tests | ~15-20 hours
+                <br>Contribute flow, Admin delete, State changes
+            </div>
+
+            <div class="recommendation-item">
+                <strong>Phase 4 (Advanced Features):</strong> 30+ tests | ~20-30 hours
+                <br>Export operations, File detail page, Permissions
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>📅 Last Updated: July 21, 2026</p>
+            <p>📍 Environment: https://test.theplaud.com</p>
+            <p>✅ All 5 Automated Tests: PASSING (100%)</p>
+        </div>
+    </div>
+</body>
+</html>

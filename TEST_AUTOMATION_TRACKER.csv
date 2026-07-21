@@ -1,0 +1,70 @@
+Test #,Module,Test Case,Priority,Status,Effort,Est. Hours
+5,Team Hub Entry & Auto-Creation,When Team Hub is empty - empty-state copy and icon are displayed,P0,✅ YES,Easy,0.25
+6,Team Hub Entry & Auto-Creation,The Team Hub page title and subtitle are displayed correctly,P1,✅ YES,Easy,0.25
+71,Team Hub Entry & Auto-Creation,Clicking a file in the Team Hub file list opens its detail page,P0,✅ YES,Easy,0.25
+72,Team Hub Entry & Auto-Creation,The detail page breadcrumb path includes the Team Hub level,P0,✅ YES,Easy,0.25
+73,Team Hub Entry & Auto-Creation,The detail page audio player loads correctly and can play,P0,✅ YES,Easy,0.5
+2,Team Hub Entry & Auto-Creation,The file count in the sidebar Team Hub parentheses updates as files are contributed,P1,❌ NO,Medium,1
+3,Team Hub Entry & Auto-Creation,The Team Hub entry is not shown in the personal workspace sidebar,P0,❌ NO,Hard,1.5
+4,Team Hub Entry & Auto-Creation,A dual-role account shows Team Hub in both the Admin workspace and the Member workspace,P1,❌ NO,Hard,2
+8,Team Hub Entry & Auto-Creation,Each Team Workspace has only 1 Team Hub entry - with no duplicates in the sidebar,P1,❌ NO,Medium,1
+-,Team Hub Entry & Auto-Creation,The Member view file list shows 4 columns (Name / Duration / Date created / Date added),P0,❌ NO,Easy,0.5
+11,View File List,The file list is sorted by contribution date (Date added) in descending order by default,P0,❌ NO,Easy,0.5
+12,View File List,After contributing a file - the Team Hub file list shows the new file in real time,P0,❌ NO,Medium,1
+13,View File List,After an Admin deletes a file - the file list removes it in real time,P1,❌ NO,Medium,1
+14,View File List,Under multiple tabs - after contributing a file the other tab's Team Hub list stays consistent on refresh,P1,❌ NO,Medium,1.5
+15,View File List,Each file list row correctly displays the Name and Duration values,P1,❌ NO,Easy,0.5
+-,View File List,(Empty test case),P0,❌ NO,Easy,0
+22,Contribute File Flow,The confirmation modal states the file will be removed from the personal space,P0,❌ NO,Medium,0.75
+23,Contribute File Flow,The confirmation modal includes a "This action cannot be undone" statement,P0,❌ NO,Medium,0.75
+25,Contribute File Flow,Clicking the Cancel button in the confirmation modal keeps the file in the personal space,P0,❌ NO,Medium,1
+26,Contribute File Flow,Clicking the confirm button contributes successfully and shows a Toast,P0,❌ NO,Medium,1
+27,Contribute File Flow,After contributing - the file disappears from the personal All files list,P0,❌ NO,Medium,1
+29,Contribute File Flow,After renaming - a previously same-named file can be contributed successfully,P1,❌ NO,Medium,1
+31,Contribute File Flow,Admin account can also perform the "Contribute to Team Hub" action,P1,❌ NO,Hard,1.5
+32,Contribute File Flow,After contributing - there is no entry point to move a file from Team Hub back to personal space,P1,❌ NO,Medium,1
+39,Contribute File Flow,After a successful contribution - the file immediately appears in the Team Hub file list,P0,❌ NO,Medium,1
+-,Post-Contribute State Changes,After a successful contribution - the file disappears from the personal All files list,P0,❌ NO,Medium,1
+42,Post-Contribute State Changes,After contributing a file in Tab A - refreshing the Team Hub list in Tab B syncs and shows the new file,P1,❌ NO,Hard,1.5
+43,Post-Contribute State Changes,After a page refresh - the state of the contributed file in Team Hub persists,P1,❌ NO,Medium,1
+44,Post-Contribute State Changes,The contribute success Toast auto-dismisses after display and does not persistently block the UI,P1,❌ NO,Medium,1
+45,Post-Contribute State Changes,After a successful contribution - the file count in parentheses next to Team Hub increments by 1,P1,❌ NO,Medium,1
+-,Post-Contribute State Changes,After refreshing a Team Hub file detail page - the content restores correctly with no blank page,P1,❌ NO,Medium,1
+46,Member Permission Restrictions,When a Member hovers over a row in the Team Hub file list - the three-dot menu button is not rendered,P0,❌ NO,Hard,1.5
+47,Member Permission Restrictions,On the Team Hub file detail page - the title field is read-only for a Member,P1,❌ NO,Medium,1
+48,Member Permission Restrictions,A Member cannot rename a file from the Team Hub file list,P1,❌ NO,Medium,1.5
+51,Member Permission Restrictions,The Team Hub file detail page has no Find & Replace entry point at all,P1,❌ NO,Medium,1
+52,Member Permission Restrictions,The Team Hub file detail page has no single-file Ask Plaud button at all,P1,❌ NO,Medium,1
+53,Member Permission Restrictions,A Member cannot move a file from Team Hub back to personal space through any entry point,P1,❌ NO,Hard,1.5
+79,Member Permission Restrictions,Comparing the Member and Admin action menus - the Member has no delete item,P1,❌ NO,Medium,1
+58,Admin Delete File,The Admin sees the Delete option in the three-dot menu of the Team Hub file list,P0,❌ NO,Medium,1
+59,Admin Delete File,Clicking Delete brings up the delete confirmation modal,P0,❌ NO,Medium,1
+-,Admin Delete File,Delete confirmation modal copy includes "permanently delete" and "cannot be recovered" statements,P0,❌ NO,Medium,1
+61,Admin Delete File,Clicking the confirmation modal's Cancel button does not delete the file,P0,❌ NO,Medium,1
+63,Admin Delete File,Clicking the modal's red Delete button permanently deletes the file,P0,❌ NO,Medium,1.5
+64,Admin Delete File,After an Admin deletes a file - it does not appear in Trash,P0,❌ NO,Medium,1
+65,Admin Delete File,After an Admin deletes - the Team Hub file list removes the file in real time,P1,❌ NO,Hard,1.5
+66,Admin Delete File,After an Admin deletes a file in Tab A - refreshing Tab B syncs the removal,P1,❌ NO,Hard,1.5
+67,Admin Delete File,An Admin can delete a file contributed by any member,P1,❌ NO,Medium,1.5
+74,View File Detail,The detail page Transcript tab shows transcript content - text area is read-only,P0,❌ NO,Medium,1
+75,View File Detail,The detail page Notes/Summary tab displays note content - text area is read-only,P0,❌ NO,Medium,1
+76,View File Detail,The file title at the top of the detail page is shown as disabled/read-only,P0,❌ NO,Medium,1
+77,View File Detail,After staying on the detail page for 16 minutes - the audio resource returns 403,P1,❌ NO,Hard,2
+78,View File Detail,On a Team Hub file detail page - an Admin's action menu shows export and share operations,P1,❌ NO,Hard,2
+81,View File Detail,Opening the same Team Hub file detail page in multiple tabs does not overwrite state,P1,❌ NO,Hard,2
+83,View File Detail,The Team Hub file detail page and private-space file detail page have consistent layout,P1,❌ NO,Hard,1.5
+86,Export Operations,Export a Transcript as SRT format from a Team Hub file detail page,P0,❌ NO,Hard,2
+87,Export Operations,Export Transcript as TXT from a Team Hub file detail page,P1,❌ NO,Hard,2
+88,Export Operations,Export Transcript as DOCX from a Team Hub file detail page,P0,❌ NO,Hard,2
+89,Export Operations,Export Summary/Notes as DOCX from a Team Hub file detail page,P1,❌ NO,Hard,2
+-,Export Operations,Export Summary/Notes as PDF from a Team Hub file detail page,P1,❌ NO,Hard,2
+91,Export Operations,Export a Mind Map from a Team Hub file detail page,P1,❌ NO,Hard,2.5
+92,Export Operations,Export the original audio file from a Team Hub file detail page,P1,❌ NO,Hard,2
+93,Export Operations,Export completes download with no error when file name contains special characters,P1,❌ NO,Hard,2
+94,Export Operations,Timestamps are correct with no misalignment when exporting transcripts,P1,❌ NO,Hard,2.5
+95,Export Operations,An Admin account can trigger exports normally on a Team Hub file detail page,P1,❌ NO,Hard,2
+109,Share Operations,Accessing a valid share link while logged in - landing page displays file content,P1,❌ NO,Hard,2
+1,Workspace Data Ownership,After a file contributor is removed - other Members can still view the file,P1,❌ NO,Hard,2
+111,Workspace Data Ownership,After a file contributor is removed - an Admin can still delete the file,P1,❌ NO,Hard,2
+-,Global Search & Ask,After a file is contributed to the team hub - it is reachable in global search,P0,❌ NO,Hard,1.5
+-,Global Search & Ask,After a file is contributed to the team hub - it is reachable in global ask,P0,❌ NO,Hard,1.5
