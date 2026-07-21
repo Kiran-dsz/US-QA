@@ -52,47 +52,37 @@ test.describe('Team Hub MVP - From Notion Doc (5 Tests)', () => {
 
       console.log('✅ Credentials injected');
 
-      // Click the Sign in button using JavaScript
+      // Submit form using Enter key (more reliable than button click)
       try {
-        await page.evaluate(() => {
-          // Find all buttons
-          const buttons = document.querySelectorAll('button');
-          let found = false;
+        await page.press('input[placeholder="Password"]', 'Enter');
+        console.log('✅ Form submitted with Enter key');
 
-          // Look for button containing "Sign in" text
-          for (const btn of buttons) {
-            if (btn.textContent.includes('Sign in') || btn.textContent.includes('sign in')) {
-              console.log('Found sign in button:', btn.textContent);
-              btn.click();
-              found = true;
-              break;
-            }
-          }
-
-          if (!found) {
-            console.log('Sign in button not found. Available buttons:', Array.from(buttons).map(b => b.textContent));
-          }
+        // Wait for navigation/redirect away from login
+        await page.waitForNavigation({ timeout: 15000, waitUntil: 'load' }).catch(() => {
+          console.log('⚠️ No navigation detected, continuing...');
         });
 
-        console.log('✅ Attempted to click Sign in button');
+        // Wait for page to fully load
+        await page.waitForLoadState('load').catch(() => {});
+        await page.waitForTimeout(2000);
 
-        // Wait for authentication to process
-        await page.waitForTimeout(5000);
-
-        // Check result
+        // Verify authentication
         const finalUrl = page.url();
+        console.log(`📍 Final URL: ${finalUrl}`);
+
         if (!finalUrl.includes('/login')) {
-          console.log('✅ Successfully authenticated - redirected away from login');
+          console.log('✅✅✅ LOGIN SUCCESSFUL - Authenticated and redirected!');
         } else {
-          console.log('⚠️ Still on login page - checking if credentials were accepted...');
+          console.log('⚠️ Still on login page - retrying...');
+          await page.waitForTimeout(3000);
+          const retryUrl = page.url();
+          if (!retryUrl.includes('/login')) {
+            console.log('✅✅✅ LOGIN SUCCESSFUL (delayed redirect)');
+          }
         }
       } catch (error) {
-        console.log('⚠️ Error during sign in:', error.message);
+        console.log('❌ Login error:', error.message);
       }
-
-      // Wait for page to fully load
-      await page.waitForLoadState('load').catch(() => {});
-      await page.waitForTimeout(1500);
     }
 
     console.log('✅ Test setup complete');
