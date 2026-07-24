@@ -89,6 +89,132 @@ const TEST_CONFIG = {
 | 7. Currency Selector | "Prices are in USD $" control found | ✅ PASS |
 | 8. Currency Change | USD → EUR prices update correctly | ✅ PASS |
 
+---
+
+## QA Exploration Findings
+
+### 🔴 CRITICAL ISSUE - Pricing Discount Not Applied
+
+**Affects:** 
+- `/member/workspace/plan` (Team Plan page)
+- `/member/purchase?from=left_up` (Individual purchase page)
+
+**Problem:**
+```
+Advertised: "20% off every seat until Aug 31, 2026"
+Expected:   $25.00 with 20% off = $20.00/seat/month
+Actual:     $25.00/seat/month ← NO DISCOUNT SHOWN
+Strikethrough: $25.00 (SAME as displayed price)
+```
+
+**Why It Matters:**
+- ❌ Discount is completely invisible to customers
+- ❌ Revenue loss from customers expecting savings
+- ❌ Credibility damage (advertised ≠ displayed)
+- ❌ Support tickets asking where the discount is
+
+**Math Verification:**
+- Original price should be higher: $31.25 with 20% off = $25.00
+- OR displayed price should be lower: $20.00 (20% off $25)
+- Currently showing: $25.00 with strikethrough $25.00 = **NO DISCOUNT VISIBLE**
+
+**Fix Required:**
+1. Update pricing calculation to apply discount
+2. Display original price and discounted price clearly
+3. Ensure strikethrough ≠ display price
+
+---
+
+### 🟡 HIGH - Annual Pricing Math Inconsistent
+
+**Affects:** Team Plan page `/member/workspace/plan`
+
+**Problem:**
+```
+Monthly: $25.00 (advertises "20% off")
+Annual:  $300.00 = $25 × 12 (FULL price, no discount)
+         Badge shows "-11% off"
+```
+
+**Math Doesn't Work:**
+- If 20% off: should be $240/year ($20 × 12), not $300
+- If 11% off: should be $267.30/year ($25 × 12 × 0.89), not $300
+- Current: $300 = NO discount applied
+
+**Impact:** User confusion about actual discount rate
+
+---
+
+### 🟡 MEDIUM - Disabled "Team" Tab on Purchase Page
+
+**Affects:** `/member/purchase?from=left_up`
+
+**Issue:**
+- Tab bar shows [Individual] [Team (grayed out)]
+- Users see "Team" tab but cannot click it
+- Must navigate to different URL to see team plans
+
+**UX Problem:** Disabled UI elements are confusing. Either hide the tab or enable it.
+
+---
+
+### 🟡 MEDIUM - Missing Feature Comparison Table
+
+**Affects:** `/member/workspace/plan` (Team Plan page)
+
+**Issue:**
+- Page shows features as checklist (✓ items)
+- No formal table comparing tiers
+- Hard for users to understand differences
+
+**Impact:** Users can't easily compare plan features
+
+---
+
+### 🟡 LOW - Workspace Dropdown Menu Improvements
+
+**Affects:** Homepage Personal workspace dropdown
+
+**Findings:**
+- ✅ All 25 menu items working
+- ✅ Settings, Membership Center, Support accessible
+- ✅ Sign out option present
+- ❌ Missing user profile card (email/avatar not shown)
+- ❌ Missing "About Plaud" link
+- ❌ Menu items not visually grouped/separated
+
+---
+
+### ✅ Homepage Structure - FUNCTIONAL
+
+Tested and verified:
+- ✅ Login flow works smoothly
+- ✅ Recent files display correctly
+- ✅ Plaud Community section shows templates
+- ✅ Navigation between sections works
+- ✅ Search functionality accessible
+- ✅ Settings page loads correctly
+- ✅ No console errors or broken assets
+- ✅ Responsive design works at 1400x900
+
+---
+
+### ✅ Workspace Dropdown Menu - MOSTLY FUNCTIONAL
+
+**Menu Structure (25 items):**
+- Workspace: Create Team workspace, Membership Center, Settings
+- Help: Contact support, Download App, Send feedback
+- Navigation: Home, Ask Plaud, Template Community, Explore
+- Files: All files (3), Unfiled (3), Trash (0)
+- File Ops: View all, Start recording, Import audio, Rename, Move, Trash
+
+**Status:**
+- ✅ All items clickable
+- ✅ No broken navigation
+- ✅ Settings page functional
+- ✅ Membership Center accessible
+- ⚠️ Could use visual improvements (see above)
+
 ## Credentials
 
 Test credentials are configured in the skill. To use different credentials:

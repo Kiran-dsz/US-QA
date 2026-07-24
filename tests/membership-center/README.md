@@ -22,6 +22,61 @@ This automated test validates the complete Membership Center workflow:
 - All tests passing
 - Prices verified: $8.40 → €9.30, $20.00 → €20.90
 
+## Known Issues Found During QA Exploration
+
+### 🔴 CRITICAL - Pricing Discount Bug
+
+**Pages affected:** Team Plan page and Purchase page
+
+**Issue:** The advertised "20% off" Launch Offer is NOT applied to displayed pricing:
+- Advertised: "20% off every seat until Aug 31, 2026"
+- Expected: $25.00 with 20% off = $20.00/seat/month
+- Actual: $25.00 (NO DISCOUNT SHOWN)
+
+**Impact:** Revenue loss, customer confusion, credibility damage
+
+**Fix needed:** Apply discount to pricing display - either show original price higher with discount to $25, or show discounted price of $20 with strikethrough of $25.
+
+---
+
+### 🟡 HIGH - Annual Pricing Math Inconsistent
+
+**Pages affected:** Team Plan page
+
+**Issue:** Annual pricing shows -11% badge but monthly shows 20% off. The math doesn't work:
+- If 20% off: annual should be $240 (not $300)
+- If 11% off: annual should be $267.30 (not $300)
+- Current: $300 = no discount applied
+
+---
+
+### 🟡 MEDIUM - Disabled "Team" Tab
+
+**Pages affected:** Purchase page (`/member/purchase`)
+
+**Issue:** "Team" tab exists but is disabled/grayed out. Users see it but can't click it, forcing navigation to different URL.
+
+---
+
+### 🟡 MEDIUM - Missing Feature Comparison Table
+
+**Pages affected:** Team Plan page
+
+**Issue:** Features shown as checklist, not as side-by-side comparison table. Makes it harder for users to compare tiers.
+
+---
+
+### ✅ Features Verified Working
+
+- ✅ Homepage login and navigation
+- ✅ Workspace dropdown menu (25 items)
+- ✅ Settings page and Account options
+- ✅ Membership Center navigation
+- ✅ Currency selector functionality
+- ✅ Price updates on currency change
+- ✅ All plan tiles display correctly
+- ✅ No console errors or broken assets
+
 ## Prerequisites
 
 - Node.js v18+ installed
