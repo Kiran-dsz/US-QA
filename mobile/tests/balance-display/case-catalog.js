@@ -1,0 +1,42 @@
+module.exports = {
+  'TC-Balance-001': {
+    title: 'Sidebar displays Preview card with balance',
+    module: 'Credits balance display/Sidebar',
+    type: 'Normal',
+    priority: 'P0',
+    coverage: 'Surface Consistency',
+    description: 'Verify that the Preview card is visible in the sidebar bottom',
+  },
+  'TC-Balance-002': {
+    title: 'Balance displays in correct format (n/X)',
+    module: 'Credits balance display/Sidebar',
+    type: 'Normal',
+    priority: 'P0',
+    coverage: 'Surface Consistency',
+    description: 'Verify balance format and parsing',
+  },
+  'TC-Balance-003': {
+    title: 'Balance is greater than 25% per precondition',
+    module: 'Credits balance display/Sidebar',
+    type: 'Normal',
+    priority: 'P0',
+    coverage: 'Precondition Validation',
+    description: 'Verify test precondition is met before running main assertions',
+  },
+  'TC-Balance-004': {
+    title: 'Balance updates in real-time after consumption',
+    module: 'Credits balance display/Sidebar',
+    type: 'Normal',
+    priority: 'P0',
+    coverage: 'Real-time Updates',
+    description: 'Verify balance updates immediately after credit consumption',
+  },
+  'TC-Balance-005': {
+    title: 'Preview card has correct styling',
+    module: 'Credits balance display/Sidebar',
+    type: 'Normal',
+    priority: 'P1',
+    coverage: 'UI Presentation',
+    description: 'Verify visual presentation of the Preview card',
+  },
+};
