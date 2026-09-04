@@ -1,11 +1,11 @@
-# /kd-tc - Generate Test Cases for Notion Database
+# /kdtc - Generate Test Cases for Notion Database
 
 Generate comprehensive test cases matching your "Phase 3: Redemption - Test Cases" Notion database schema.
 
 ## Usage
 
 ```
-/kd-tc
+/kdtc
 ```
 
 Share your source materials (Notion PRD, Linear tickets, Figma designs) and I'll generate test cases ready to copy into Notion.
@@ -33,7 +33,7 @@ Share your source materials (Notion PRD, Linear tickets, Figma designs) and I'll
 
 ## How to Use
 
-1. Invoke `/kd-tc`
+1. Invoke `/kdtc`
 2. Provide:
    - Notion PRD link (requirements document)
    - Linear ticket URL(s) (features/bugs to test)
