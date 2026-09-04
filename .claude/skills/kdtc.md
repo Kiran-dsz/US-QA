@@ -1,4 +1,4 @@
-# Generate Test Cases for Notion Database
+# /kdtc - Test Cases for Notion Database
 
 Generate comprehensive test cases matching your "Phase 3: Redemption - Test Cases" Notion database schema.
 
