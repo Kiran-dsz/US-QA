@@ -105,17 +105,19 @@ export class Phase3Page {
   }
 
   async clickMinutesCard() {
-    const minutesCard = this.page.locator('text=min left').first();
-    if (await minutesCard.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await minutesCard.click();
+    // Click on the minutes left text or its container
+    const minutesLocator = this.page.locator('button, div').filter({ hasText: /\d+\s*min\s*left/ }).first();
+    if (await minutesLocator.count() > 0) {
+      await minutesLocator.click();
       await this.page.waitForLoadState('networkidle');
     }
   }
 
   async clickCreditsCard() {
-    const creditsCard = this.page.locator('text=credits left').first();
-    if (await creditsCard.isVisible({ timeout: 3000 }).catch(() => false)) {
-      await creditsCard.click();
+    // Click on the credits left text or its container
+    const creditsLocator = this.page.locator('button, div').filter({ hasText: /\d+\s*credits?\s*left/ }).first();
+    if (await creditsLocator.count() > 0) {
+      await creditsLocator.click();
       await this.page.waitForLoadState('networkidle');
     }
   }
@@ -123,6 +125,6 @@ export class Phase3Page {
   async isOnMembershipCenter() {
     const url = this.page.url();
     const pageText = await this.page.locator('body').textContent().catch(() => '');
-    return url.includes('membership') || pageText.includes('Membership');
+    return url.includes('membership') || pageText.includes('plan') || pageText.includes('upgrade');
   }
 }
