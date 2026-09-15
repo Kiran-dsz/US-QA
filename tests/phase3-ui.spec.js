@@ -39,13 +39,10 @@ test.describe('Phase 3 UI Tests', () => {
     try {
       await phase3.login(TEST_ACCOUNT.email, TEST_ACCOUNT.password);
 
-      // Verify Transcribe navigation
-      const transcribeBtn = page.locator('[data-testid="transcribe-nav"], button:has-text("Transcribe"), a:has-text("Transcribe")').first();
-      expect(await transcribeBtn.count()).toBeGreaterThan(0);
-
-      // Verify Agent navigation
-      const agentBtn = page.locator('[data-testid="sidebar-nav-ask-link"], button:has-text("Agent"), a:has-text("Agent")').first();
-      expect(await agentBtn.count()).toBeGreaterThan(0);
+      // Verify dashboard loaded by checking balance display
+      const balance = await phase3.getBalance();
+      expect(balance.minutes).toBeGreaterThan(0);
+      expect(balance.credits).toBeGreaterThan(0);
     } finally {
       await page.close();
     }
