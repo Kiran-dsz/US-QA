@@ -1,0 +1,53 @@
+# Phase 3 QA Tests
+
+Automated E2E tests for Plaud Phase 3 (Teams Money - Web credit system) using Playwright.
+
+## Tests
+
+- **E2E-002:** Transcription deducts minutes only
+- **E2E-004:** Agent work deducts credits only
+
+## Setup
+
+```bash
+npm install
+npx playwright install --with-deps
+```
+
+## Run Tests
+
+```bash
+npx playwright test tests/phase3-balance.spec.js
+```
+
+## Test Account
+
+- Email: `qa-test-us-tggbvg4y@guerrillamailblock.com`
+- Password: `Qwer1234`
+- Environment: https://beta.theplaud.com
+
+## Architecture
+
+- **Page Object Pattern:** `tests/helpers/phase3.helpers.js`
+  - Login with modal handling
+  - Balance extraction with regex parsing
+  - Feature navigation and interaction
+  - Network request logging for debugging
+
+- **Test Suite:** `tests/phase3-balance.spec.js`
+  - Two comprehensive E2E test cases
+  - Balance verification and consumption tracking
+  - Network inspection to validate API calls
+
+## Bug Report
+
+**Issue:** Phase 3 features do not deduct credits
+- **Linear:** USM-837
+- **Parent:** USM-810
+- **Status:** Backend integration issue - consumption endpoints not being called
+
+## Known Issues
+
+- Transcription and agent features complete on UI but don't trigger backend consumption
+- This is a backend provisioning issue, not a test automation problem
+- Tests will pass once backend is properly configured

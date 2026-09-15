@@ -1,20 +1,22 @@
 {
-  "name": "dtc-playwright",
+  "name": "phase-3-qa-tests",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "E2E tests for Plaud Phase 3 (Teams Money - Web credit system)",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "keywords": [
+    "playwright",
+    "e2e",
+    "testing",
+    "phase3",
+    "plaud"
+  ],
+  "author": "Plaud QA Team",
+  "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
-    "playwright": "^1.61.1"
-  },
-  "dependencies": {
-    "puppeteer": "^25.3.0"
+    "@playwright/test": "latest"
   }
 }
