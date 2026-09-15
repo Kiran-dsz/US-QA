@@ -16,6 +16,9 @@
   ],
   "author": "Plaud QA Team",
   "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  },
   "devDependencies": {
     "@playwright/test": "latest"
   }

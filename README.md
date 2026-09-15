@@ -9,10 +9,23 @@ Automated E2E tests for Plaud Phase 3 (Teams Money - Web credit system) using Pl
 
 ## Setup
 
-```bash
-npm install
-npx playwright install --with-deps
-```
+1. **Install dependencies:**
+   ```bash
+   npm install
+   npx playwright install --with-deps
+   ```
+
+2. **Configure credentials:**
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Then edit `.env` and add your test credentials:
+   ```
+   TEST_EMAIL=your-test-email@example.com
+   TEST_PASSWORD=your-test-password
+   BASE_URL=https://beta.theplaud.com
+   ```
 
 ## Run Tests
 
@@ -20,11 +33,11 @@ npx playwright install --with-deps
 npx playwright test tests/phase3-balance.spec.js
 ```
 
-## Test Account
-
-- Email: `qa-test-us-tggbvg4y@guerrillamailblock.com`
-- Password: `Qwer1234`
-- Environment: https://beta.theplaud.com
+Or with debugging:
+```bash
+npx playwright test --debug
+npx playwright test --headed
+```
 
 ## Architecture
 

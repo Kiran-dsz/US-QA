@@ -2,8 +2,18 @@ import { test, expect } from '@playwright/test';
 import { Phase3Page } from './helpers/phase3.helpers.js';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
 
-const TEST_ACCOUNT = { email: 'qa-test-us-tggbvg4y@guerrillamailblock.com', password: 'Qwer1234' };
+dotenv.config();
+
+const TEST_ACCOUNT = {
+  email: process.env.TEST_EMAIL,
+  password: process.env.TEST_PASSWORD
+};
+
+if (!TEST_ACCOUNT.email || !TEST_ACCOUNT.password) {
+  throw new Error('TEST_EMAIL and TEST_PASSWORD must be set in .env file');
+}
 
 const createSampleAudio = () => {
   const audioDir = path.join(process.cwd(), 'tests', 'audio');
