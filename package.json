@@ -1,0 +1,22 @@
+{
+  "name": "phase-3-qa-tests",
+  "version": "1.0.0",
+  "description": "E2E tests for Plaud Phase 3 (Teams Money - Web credit system)",
+  "scripts": {
+    "test": "playwright test",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed"
+  },
+  "keywords": [
+    "playwright",
+    "e2e",
+    "testing",
+    "phase3",
+    "plaud"
+  ],
+  "author": "Plaud QA Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "latest"
+  }
+}
