@@ -127,4 +127,71 @@ test.describe('Phase 3 UI Tests', () => {
       await page.close();
     }
   });
+
+  // E2E-008: Starter section displays balance info
+  test('E2E-008: Starter section displays minutes and credits', async ({ browser }) => {
+    const page = await browser.newPage();
+    const phase3 = new Phase3Page(page);
+
+    try {
+      await phase3.login(TEST_ACCOUNT.email, TEST_ACCOUNT.password);
+
+      // Verify "min left" is visible in Starter section
+      const minutesText = page.locator('text=min left').first();
+      await expect(minutesText).toBeVisible();
+
+      // Verify "credits left" is visible in Starter section
+      const creditsText = page.locator('text=credits left').first();
+      await expect(creditsText).toBeVisible();
+
+      // Verify they contain actual numbers
+      const minutesContent = await minutesText.textContent();
+      const creditsContent = await creditsText.textContent();
+
+      expect(minutesContent).toMatch(/\d+\s*min\s*left/i);
+      expect(creditsContent).toMatch(/\d+\s*credits?\s*left/i);
+    } finally {
+      await page.close();
+    }
+  });
+
+  // E2E-009: Click minutes navigates to Membership Center
+  test('E2E-009: Click minutes card navigates to Membership Center', async ({ browser }) => {
+    const page = await browser.newPage();
+    const phase3 = new Phase3Page(page);
+
+    try {
+      await page.setViewportSize({ width: 1920, height: 1080 });
+      await phase3.login(TEST_ACCOUNT.email, TEST_ACCOUNT.password);
+
+      // Click on minutes card
+      await phase3.clickMinutesCard();
+
+      // Verify navigation to Membership Center
+      const isOnMembership = await phase3.isOnMembershipCenter();
+      expect(isOnMembership).toBe(true);
+    } finally {
+      await page.close();
+    }
+  });
+
+  // E2E-010: Click credits navigates to Membership Center
+  test('E2E-010: Click credits card navigates to Membership Center', async ({ browser }) => {
+    const page = await browser.newPage();
+    const phase3 = new Phase3Page(page);
+
+    try {
+      await page.setViewportSize({ width: 1920, height: 1080 });
+      await phase3.login(TEST_ACCOUNT.email, TEST_ACCOUNT.password);
+
+      // Click on credits card
+      await phase3.clickCreditsCard();
+
+      // Verify navigation to Membership Center
+      const isOnMembership = await phase3.isOnMembershipCenter();
+      expect(isOnMembership).toBe(true);
+    } finally {
+      await page.close();
+    }
+  });
 });

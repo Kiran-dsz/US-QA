@@ -103,4 +103,26 @@ export class Phase3Page {
       }
     }
   }
+
+  async clickMinutesCard() {
+    const minutesCard = this.page.locator('text=min left').first();
+    if (await minutesCard.isVisible({ timeout: 3000 }).catch(() => false)) {
+      await minutesCard.click();
+      await this.page.waitForLoadState('networkidle');
+    }
+  }
+
+  async clickCreditsCard() {
+    const creditsCard = this.page.locator('text=credits left').first();
+    if (await creditsCard.isVisible({ timeout: 3000 }).catch(() => false)) {
+      await creditsCard.click();
+      await this.page.waitForLoadState('networkidle');
+    }
+  }
+
+  async isOnMembershipCenter() {
+    const url = this.page.url();
+    const pageText = await this.page.locator('body').textContent().catch(() => '');
+    return url.includes('membership') || pageText.includes('Membership');
+  }
 }
